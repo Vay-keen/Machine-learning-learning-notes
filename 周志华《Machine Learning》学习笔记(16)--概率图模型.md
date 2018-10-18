@@ -13,33 +13,33 @@
 > **1. 观测变量的取值仅依赖于状态变量**；
 > **2. 下一个状态的取值仅依赖于当前状态**，通俗来讲：**现在决定未来，未来与过去无关**，这就是著名的**马尔可夫性**。
 
-![这里写图片描述](http://img.blog.csdn.net/20170713190825135?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![iwYPmR.png](https://s1.ax1x.com/2018/10/18/iwYPmR.png)
 
 基于上述变量之间的依赖关系，我们很容易写出隐马尔可夫模型中所有变量的联合概率分布：
 
-![这里写图片描述](http://img.blog.csdn.net/20170713190939161?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![iwY9X9.png](https://s1.ax1x.com/2018/10/18/iwY9X9.png)
 
 易知：**欲确定一个HMM模型需要以下三组参数**：
 
-![这里写图片描述](http://img.blog.csdn.net/20170713191000766?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![iwYi01.png](https://s1.ax1x.com/2018/10/18/iwYi01.png)
 
 当确定了一个HMM模型的三个参数后，便按照下面的规则来生成观测值序列：
 
-![这里写图片描述](http://img.blog.csdn.net/20170713191018191?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![iwYFTx.png](https://s1.ax1x.com/2018/10/18/iwYFTx.png)
 
 在实际应用中，HMM模型的发力点主要体现在下述三个问题上：
 
-![这里写图片描述](http://img.blog.csdn.net/20170713191029751?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![iwYEtK.png](https://s1.ax1x.com/2018/10/18/iwYEtK.png)
 
 ###**15.1.1 HMM评估问题**
 
 HMM评估问题指的是：**给定了模型的三个参数与观测值序列，求该观测值序列出现的概率**。例如：对于赌场问题，便可以依据骰子掷出的结果序列来计算该结果序列出现的可能性，若小概率的事件发生了则可认为赌场的骰子有作弊的可能。解决该问题使用的是**前向算法**，即步步为营，自底向上的方式逐步增加序列的长度，直到获得目标概率值。在前向算法中，定义了一个**前向变量**，即给定观察值序列且t时刻的状态为Si的概率：
 
-![这里写图片描述](http://img.blog.csdn.net/20170713191118511?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![iwYVfO.png](https://s1.ax1x.com/2018/10/18/iwYVfO.png)
 
 基于前向变量，很容易得到该问题的递推关系及终止条件：
 
-![这里写图片描述](http://img.blog.csdn.net/20170713191140495?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![iwYAk6.png](https://s1.ax1x.com/2018/10/18/iwYAk6.png)
 
 因此可使用动态规划法，从最小的子问题开始，通过填表格的形式一步一步计算出目标结果。
 
@@ -47,25 +47,25 @@ HMM评估问题指的是：**给定了模型的三个参数与观测值序列，
 
 HMM解码问题指的是：**给定了模型的三个参数与观测值序列，求可能性最大的状态序列**。例如：在语音识别问题中，人说话形成的数字信号对应着观测值序列，对应的具体文字则是状态序列，从数字信号转化为文字正是对应着根据观测值序列推断最有可能的状态值序列。解决该问题使用的是**Viterbi算法**，与前向算法十分类似地，Viterbi算法定义了一个**Viterbi变量**，也是采用动态规划的方法，自底向上逐步求解。
 
-![这里写图片描述](http://img.blog.csdn.net/20170713191232288?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![iwYepD.png](https://s1.ax1x.com/2018/10/18/iwYepD.png)
 
 ###**15.1.3 HMM学习问题**
 
 HMM学习问题指的是：**给定观测值序列，如何调整模型的参数使得该序列出现的概率最大**。这便转化成了机器学习问题，即从给定的观测值序列中学习出一个HMM模型，**该问题正是EM算法的经典案例之一**。其思想也十分简单：对于给定的观测值序列，如果我们能够按照该序列潜在的规律来调整模型的三个参数，则可以使得该序列出现的可能性最大。假设状态值序列也已知，则很容易计算出与该序列最契合的模型参数：
 
-![这里写图片描述](http://img.blog.csdn.net/20170713191309630?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![iwYm1e.png](https://s1.ax1x.com/2018/10/18/iwYm1e.png)
 
 但一般状态值序列都是不可观测的，且**即使给定观测值序列与模型参数，状态序列仍然遭遇组合爆炸**。因此上面这种简单的统计方法就行不通了，若将状态值序列看作为隐变量，这时便可以考虑使用EM算法来对该问题进行求解：
 
 【1】首先对HMM模型的三个参数进行随机初始化；
 【2】根据模型的参数与观测值序列，计算t时刻状态为i且t+1时刻状态为j的概率以及t时刻状态为i的概率。
 
-![这里写图片描述](http://img.blog.csdn.net/20170713191344200?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
-![这里写图片描述](http://img.blog.csdn.net/20170713191359401?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![iwYn6H.png](https://s1.ax1x.com/2018/10/18/iwYn6H.png)
+![iwYdns.png](https://s1.ax1x.com/2018/10/18/iwYdns.png)
 
 【3】接着便可以对模型的三个参数进行重新估计：
 
-![这里写图片描述](http://img.blog.csdn.net/20170713191424899?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![iwYY9S.png](https://s1.ax1x.com/2018/10/18/iwYY9S.png)
 
 【4】重复步骤2-3，直至三个参数值收敛，便得到了最终的HMM模型。
 
@@ -73,7 +73,7 @@ HMM学习问题指的是：**给定观测值序列，如何调整模型的参数
 
 马尔可夫随机场（Markov Random Field）是一种典型的马尔可夫网，即使用无向边来表达变量间的依赖关系。在马尔可夫随机场中，对于关系图中的一个子集，**若任意两结点间都有边连接，则称该子集为一个团；若再加一个结点便不能形成团，则称该子集为极大团**。MRF使用**势函数**来定义多个变量的概率分布函数，其中**每个（极大）团对应一个势函数**，一般团中的变量关系也体现在它所对应的极大团中，因此常常基于极大团来定义变量的联合概率分布函数。具体而言，若所有变量构成的极大团的集合为C，则MRF的联合概率函数可以定义为：
 
-![这里写图片描述](http://img.blog.csdn.net/20170713191527867?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![iwYGh8.png](https://s1.ax1x.com/2018/10/18/iwYGh8.png)
 
 对于条件独立性，**马尔可夫随机场通过分离集来实现条件独立**，若A结点集必须经过C结点集才能到达B结点集，则称C为分离集。书上给出了一个简单情形下的条件独立证明过程，十分贴切易懂，此处不再展开。基于分离集的概念，得到了MRF的三个性质：
 
@@ -81,21 +81,21 @@ HMM学习问题指的是：**给定观测值序列，如何调整模型的参数
 > **局部马尔可夫性**：给定某变量的邻接变量，则该变量与其它变量条件独立。
 > **成对马尔可夫性**：给定所有其他变量，两个非邻接变量条件独立。
 
-![这里写图片描述](http://img.blog.csdn.net/20170713191620164?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![iwY07q.png](https://s1.ax1x.com/2018/10/18/iwY07q.png)
 
 对于MRF中的势函数，势函数主要用于描述团中变量之间的相关关系，且要求为非负函数，直观来看：势函数需要在偏好的变量取值上函数值较大，例如：若x1与x2成正相关，则需要将这种关系反映在势函数的函数值中。一般我们常使用指数函数来定义势函数：
 
-![这里写图片描述](http://img.blog.csdn.net/20170713191635081?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![iwY8tf.png](https://s1.ax1x.com/2018/10/18/iwY8tf.png)
 
 ##**15.3 条件随机场（CRF）**
 
 前面所讲到的**隐马尔可夫模型和马尔可夫随机场都属于生成式模型，即对联合概率进行建模，条件随机场则是对条件分布进行建模**。CRF试图在给定观测值序列后，对状态序列的概率分布进行建模，即P(y | x)。直观上看：CRF与HMM的解码问题十分类似，都是在给定观测值序列后，研究状态序列可能的取值。CRF可以有多种结构，只需保证状态序列满足马尔可夫性即可，一般我们常使用的是**链式条件随机场**：
 
-![这里写图片描述](http://img.blog.csdn.net/20170713191711867?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![iwYt1g.png](https://s1.ax1x.com/2018/10/18/iwYt1g.png)
 
 与马尔可夫随机场定义联合概率类似地，CRF也通过团以及势函数的概念来定义条件概率P(y | x)。在给定观测值序列的条件下，链式条件随机场主要包含两种团结构：单个状态团及相邻状态团，通过引入两类特征函数便可以定义出目标条件概率：
 
-![这里写图片描述](http://img.blog.csdn.net/20170713191728449?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![iwYNcQ.png](https://s1.ax1x.com/2018/10/18/iwYNcQ.png)
 
 以词性标注为例，如何判断给出的一个标注序列靠谱不靠谱呢？**转移特征函数主要判定两个相邻的标注是否合理**，例如：动词+动词显然语法不通；**状态特征函数则判定观测值与对应的标注是否合理**，例如： ly结尾的词-->副词较合理。因此我们可以定义一个特征函数集合，用这个特征函数集合来为一个标注序列打分，并据此选出最靠谱的标注序列。也就是说，每一个特征函数（对应一种规则）都可以用来为一个标注序列评分，把集合中所有特征函数对同一个标注序列的评分综合起来，就是这个标注序列最终的评分值。可以看出：**特征函数是一些经验的特性**。
 
@@ -107,21 +107,21 @@ HMM学习问题指的是：**给定观测值序列，如何调整模型的参数
 
 变量消去利用条件独立性来消减计算目标概率值所需的计算量，它通过运用**乘法与加法的分配率**，将对变量的积的求和问题转化为对部分变量交替进行求积与求和的问题，从而将每次的**运算控制在局部**，达到简化运算的目的。
 
-![这里写图片描述](http://img.blog.csdn.net/20170713191859409?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
-![这里写图片描述](http://img.blog.csdn.net/20170713191910540?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![iwYUXj.png](https://s1.ax1x.com/2018/10/18/iwYUXj.png)
+![iwYwBn.png](https://s1.ax1x.com/2018/10/18/iwYwBn.png)
 
 ###**15.4.2 信念传播**
 
 若将变量求和操作看作是一种消息的传递过程，信念传播可以理解成：**一个节点在接收到所有其它节点的消息后才向另一个节点发送消息**，同时当前节点的边际概率正比于他所接收的消息的乘积：
 
-![这里写图片描述](http://img.blog.csdn.net/20170713191933345?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![iwYDA0.png](https://s1.ax1x.com/2018/10/18/iwYDA0.png)
 
 因此只需要经过下面两个步骤，便可以完成所有的消息传递过程。利用动态规划法的思想记录传递过程中的所有消息，当计算某个结点的边际概率分布时，只需直接取出传到该结点的消息即可，从而避免了计算多个边际分布时的冗余计算问题。
 
 > 1.指定一个根节点，从所有的叶节点开始向根节点传递消息，直到根节点收到所有邻接结点的消息**（从叶到根）**；
 > 2.从根节点开始向叶节点传递消息，直到所有叶节点均收到消息**（从根到叶）**。
 
-![这里写图片描述](http://img.blog.csdn.net/20170713192020779?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![iwYgc4.png](https://s1.ax1x.com/2018/10/18/iwYgc4.png)
 
 ##**15.5 LDA话题模型**
 
@@ -133,12 +133,12 @@ HMM学习问题指的是：**给定观测值序列，如何调整模型的参数
 
 在现实任务中，一般我们可以得出一个文档的词频分布，但不知道该文档对应着哪些话题，LDA话题模型正是为了解决这个问题。具体来说：**LDA认为每篇文档包含多个话题，且其中每一个词都对应着一个话题**。因此可以假设文档是通过如下方式生成：
 
-![这里写图片描述](http://img.blog.csdn.net/20170713192125775?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![iwY2jJ.png](https://s1.ax1x.com/2018/10/18/iwY2jJ.png)
 
 这样一个文档中的所有词都可以认为是通过话题模型来生成的，当已知一个文档的词频分布后（即一个N维向量，N为词库大小），则可以认为：**每一个词频元素都对应着一个话题，而话题对应的词频分布则影响着该词频元素的大小**。因此很容易写出LDA模型对应的联合概率函数：
 
-![这里写图片描述](http://img.blog.csdn.net/20170713192136979?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
-![这里写图片描述](http://img.blog.csdn.net/20170713192147479?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![iwYc3F.png](https://s1.ax1x.com/2018/10/18/iwYc3F.png)
+![iwYWu9.png](https://s1.ax1x.com/2018/10/18/iwYWu9.png)
 
 从上图可以看出，LDA的三个表示层被三种颜色表示出来：
 
@@ -153,12 +153,5 @@ HMM学习问题指的是：**给定观测值序列，如何调整模型的参数
 
 把w当做观察变量，θ和z当做隐藏变量，就可以通过EM算法学习出α和β，求解过程中遇到后验概率p(θ,z|w)无法直接求解，需要找一个似然函数下界来近似求解，原作者使用基于分解（factorization）假设的变分法（varialtional inference）进行计算，用到了EM算法。每次E-step输入α和β，计算似然函数，M-step最大化这个似然函数，算出α和β，不断迭代直到收敛。
 
-在此，概率图模型就介绍完毕~上周受到协同训练的启发，让实验的小伙伴做了一个HMM的slides，结果扩充了好多知识，所以完成这篇笔记还是花费了不少功夫，还刚好赶上实验室没空调回到解放前的日子，可谓汗流之作...
-
-
-
-
-
-
-
+在此，概率图模型就介绍完毕。上周受到协同训练的启发，让实验的小伙伴做了一个HMM的slides，结果扩充了好多知识，所以完成这篇笔记还是花费了不少功夫，还刚好赶上实验室没空调回到解放前的日子，可谓汗流之作...
 
