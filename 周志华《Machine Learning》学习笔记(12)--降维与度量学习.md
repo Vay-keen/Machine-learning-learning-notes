@@ -10,7 +10,7 @@
 
 k近邻算法简称**kNN（k-Nearest Neighbor）**，是一种经典的监督学习方法，同时也实力担当入选数据挖掘十大算法。其工作机制十分简单粗暴：给定某个测试样本，kNN基于某种**距离度量**在训练集中找出与其距离最近的k个带有真实标记的训练样本，然后给基于这k个邻居的真实标记来进行预测，类似于前面集成学习中所讲到的基学习器结合策略：分类任务采用投票法，回归任务则采用平均法。接下来本篇主要就kNN分类进行讨论。
 
-![这里写图片描述](http://img.blog.csdn.net/20170515102632245?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![1.png](https://i.loli.net/2018/10/18/5bc851a43873a.png)
 
 从上图【来自Wiki】中我们可以看到，图中有两种类型的样本，一类是蓝色正方形，另一类是红色三角形。而那个绿色圆形是我们待分类的样本。基于kNN算法的思路，我们很容易得到以下结论：
 
@@ -21,7 +21,7 @@ k近邻算法简称**kNN（k-Nearest Neighbor）**，是一种经典的监督学
 
 很容易看出：**kNN算法的核心在于k值的选取以及距离的度量**。k值选取太小，模型很容易受到噪声数据的干扰，例如：极端地取k=1，若待分类样本正好与一个噪声数据距离最近，就导致了分类错误；若k值太大， 则在更大的邻域内进行投票，此时模型的预测能力大大减弱，例如：极端取k=训练样本数，就相当于模型根本没有学习，所有测试样本的预测结果都是一样的。**一般地我们都通过交叉验证法来选取一个适当的k值**。
 
-![这里写图片描述](http://img.blog.csdn.net/20170515102825323?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![2.png](https://i.loli.net/2018/10/18/5bc851a47db9a.png)
 
 对于距离度量，**不同的度量方法得到的k个近邻不尽相同，从而对最终的投票结果产生了影响**，因此选择一个合适的距离度量方法也十分重要。在上一篇聚类算法中，在度量样本相似性时介绍了常用的几种距离计算方法，包括**闵可夫斯基距离，曼哈顿距离，VDM**等。在实际应用中，**kNN的距离度量函数一般根据样本的特性来选择合适的距离度量，同时应对数据进行去量纲/归一化处理来消除大量纲属性的强权政治影响**。
 
@@ -32,19 +32,19 @@ k近邻算法简称**kNN（k-Nearest Neighbor）**，是一种经典的监督学
 
 假定m个样本在原始空间中任意两两样本之间的距离矩阵为D∈R(m*m)，我们的目标便是获得样本在低维空间中的表示Z∈R(d'*m , d'< d)，且任意两个样本在低维空间中的欧式距离等于原始空间中的距离，即||zi-zj||=Dist(ij)。因此接下来我们要做的就是根据已有的距离矩阵D来求解出降维后的坐标矩阵Z。
 
-![这里写图片描述](http://img.blog.csdn.net/20170515102938526?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![3.png](https://i.loli.net/2018/10/18/5bc851a4b664e.png)
 
 令降维后的样本坐标矩阵Z被中心化，**中心化是指将每个样本向量减去整个样本集的均值向量，故所有样本向量求和得到一个零向量**。这样易知：矩阵B的每一列以及每一列求和均为0，因为提取公因子后都有一项为所有样本向量的和向量。
 
-![这里写图片描述](http://img.blog.csdn.net/20170515103045059?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![4.png](https://i.loli.net/2018/10/18/5bc851a4a4ee2.png)
 
 根据上面矩阵B的特征，我们很容易得到等式（2）、（3）以及（4）：
 
-![这里写图片描述](http://img.blog.csdn.net/20170515103109200?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![5.png](https://i.loli.net/2018/10/18/5bc851a4a777b.png)
 
 这时根据(1)--(4)式我们便可以计算出bij，即**bij=(1)-(2)*(1/m)-(3)*(1/m)+(4)*(1/(m^2))**，再逐一地计算每个b(ij)，就得到了降维后低维空间中的内积矩阵B(B=Z'*Z)，只需对B进行特征值分解便可以得到Z。MDS的算法流程如下图所示：
 
-![这里写图片描述](http://img.blog.csdn.net/20170515103140685?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![6.png](https://i.loli.net/2018/10/18/5bc851a5340dd.png)
 
 ##**11.3 主成分分析（PCA）**
 
@@ -57,15 +57,15 @@ k近邻算法简称**kNN（k-Nearest Neighbor）**，是一种经典的监督学
 
 这里十分神奇的是：**最近重构性与最大可分性虽然从不同的出发点来定义优化问题中的目标函数，但最终这两种特性得到了完全相同的优化问题**：
 
-![这里写图片描述](http://img.blog.csdn.net/20170515103327641?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![7.png](https://i.loli.net/2018/10/18/5bc851a5213c1.png)
 
 接着使用拉格朗日乘子法求解上面的优化问题，得到：
 
-![这里写图片描述](http://img.blog.csdn.net/20170515103342341?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![8.png](https://i.loli.net/2018/10/18/5bc851a4a102a.png)
 
 因此只需对协方差矩阵进行特征值分解即可求解出W，PCA算法的整个流程如下图所示：
 
-![这里写图片描述](http://img.blog.csdn.net/20170515103356544?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![9.png](https://i.loli.net/2018/10/18/5bc851a540eb3.png)
 
 另一篇博客给出更通俗更详细的理解：[主成分分析解析（基于最大方差理论）](http://blog.csdn.net/u011826404/article/details/57472730)
 
@@ -75,15 +75,15 @@ k近邻算法简称**kNN（k-Nearest Neighbor）**，是一种经典的监督学
 
 若核函数的形式已知，即我们知道如何将低维的坐标变换为高维坐标，这时我们只需先将数据映射到高维特征空间，再在高维空间中运用PCA即可。但是一般情况下，我们并不知道核函数具体的映射规则，例如：Sigmoid、高斯核等，我们只知道如何计算高维空间中的样本内积，这时就引出了KPCA的一个重要创新之处：**即空间中的任一向量，都可以由该空间中的所有样本线性表示**。证明过程也十分简单：
 
-![这里写图片描述](http://img.blog.csdn.net/20170515103448128?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![10.png](https://i.loli.net/2018/10/18/5bc851a51bd2a.png)
 
 这样我们便可以将高维特征空间中的投影向量wi使用所有高维样本点线性表出，接着代入PCA的求解问题，得到：
 
-![这里写图片描述](http://img.blog.csdn.net/20170515103504175?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![11.png](https://i.loli.net/2018/10/18/5bc851b74b083.png)
 
 化简到最后一步，发现结果十分的美妙，只需对核矩阵K进行特征分解，便可以得出投影向量wi对应的系数向量α，因此选取特征值前d'大对应的特征向量便是d'个系数向量。这时对于需要降维的样本点，只需按照以下步骤便可以求出其降维后的坐标。可以看出：KPCA在计算降维后的坐标表示时，需要与所有样本点计算核函数值并求和，因此该算法的计算开销十分大。
 
-![这里写图片描述](http://img.blog.csdn.net/20170515103520675?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![12.png](https://i.loli.net/2018/10/18/5bc851b735754.png)
 
 ##**11.5 流形学习**
 
@@ -93,11 +93,11 @@ k近邻算法简称**kNN（k-Nearest Neighbor）**，是一种经典的监督学
 
 等度量映射的基本出发点是：高维空间中的直线距离具有误导性，因为有时高维空间中的直线距离在低维空间中是不可达的。**因此利用流形在局部上与欧式空间同胚的性质，可以使用近邻距离来逼近测地线距离**，即对于一个样本点，它与近邻内的样本点之间是可达的，且距离使用欧式距离计算，这样整个样本空间就形成了一张近邻图，高维空间中两个样本之间的距离就转为最短路径问题。可采用著名的**Dijkstra算法**或**Floyd算法**计算最短距离，得到高维空间中任意两点之间的距离后便可以使用MDS算法来其计算低维空间中的坐标。
 
-![这里写图片描述](http://img.blog.csdn.net/20170515103704615?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![13.png](https://i.loli.net/2018/10/18/5bc851b731a1e.png)
 
 从MDS算法的描述中我们可以知道：MDS先求出了低维空间的内积矩阵B，接着使用特征值分解计算出了样本在低维空间中的坐标，但是并没有给出通用的投影向量w，因此对于需要降维的新样本无从下手，书中给出的权宜之计是利用已知高/低维坐标的样本作为训练集学习出一个“投影器”，便可以用高维坐标预测出低维坐标。Isomap算法流程如下图：
 
-![这里写图片描述](http://img.blog.csdn.net/20170515103720163?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![14.png](https://i.loli.net/2018/10/18/5bc851b6c7e37.png)
 
 对于近邻图的构建，常用的有两种方法：**一种是指定近邻点个数**，像kNN一样选取k个最近的邻居；**另一种是指定邻域半径**，距离小于该阈值的被认为是它的近邻点。但两种方法均会出现下面的问题：
 
@@ -108,24 +108,25 @@ k近邻算法简称**kNN（k-Nearest Neighbor）**，是一种经典的监督学
 
 不同于Isomap算法去保持邻域距离，LLE算法试图去保持邻域内的线性关系，假定样本xi的坐标可以通过它的邻域样本线性表出：
 
-![这里写图片描述](http://img.blog.csdn.net/20170515103826243?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
-![这里写图片描述](http://img.blog.csdn.net/20170515103839618?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![15.png](https://i.loli.net/2018/10/18/5bc851b64236f.png)
+
+![16.png](https://i.loli.net/2018/10/18/5bc851b6a7b9a.png)
 
 LLE算法分为两步走，**首先第一步根据近邻关系计算出所有样本的邻域重构系数w**：
 
-![这里写图片描述](http://img.blog.csdn.net/20170515103910462?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![17.png](https://i.loli.net/2018/10/18/5bc851b662815.png)
 
 **接着根据邻域重构系数不变，去求解低维坐标**：
 
-![这里写图片描述](http://img.blog.csdn.net/20170515103924907?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![18.png](https://i.loli.net/2018/10/18/5bc851b648b98.png)
 
 这样利用矩阵M，优化问题可以重写为：
 
-![这里写图片描述](http://img.blog.csdn.net/20170515103940438?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![19.png](https://i.loli.net/2018/10/18/5bc851b6948d7.png)
 
 M特征值分解后最小的d'个特征值对应的特征向量组成Z，LLE算法的具体流程如下图所示：
 
-![这里写图片描述](http://img.blog.csdn.net/20170515103955892?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![20.png](https://i.loli.net/2018/10/18/5bc851b757d8c.png)
 
 ##**11.6 度量学习**
 
@@ -133,19 +134,19 @@ M特征值分解后最小的d'个特征值对应的特征向量组成Z，LLE算�
 
 **首先要学习出距离度量必须先定义一个合适的距离度量形式**。对两个样本xi与xj，它们之间的平方欧式距离为：
 
-![这里写图片描述](http://img.blog.csdn.net/20170515104154466?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![21.png](https://i.loli.net/2018/10/18/5bc851d3ca3d5.png)
 
 若各个属性重要程度不一样即都有一个权重，则得到加权的平方欧式距离：
 
-![这里写图片描述](http://img.blog.csdn.net/20170515104208924?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![22.png](https://i.loli.net/2018/10/18/5bc851d3d82c5.png)
 
 此时各个属性之间都是相互独立无关的，但现实中往往会存在属性之间有关联的情形，例如：身高和体重，一般人越高，体重也会重一些，他们之间存在较大的相关性。这样计算距离就不能分属性单独计算，于是就引入经典的**马氏距离(Mahalanobis distance)**:
 
-![这里写图片描述](http://img.blog.csdn.net/20170515104239623?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![23.png](https://i.loli.net/2018/10/18/5bc851d3dc303.png)
 
 **标准的马氏距离中M是协方差矩阵的逆，马氏距离是一种考虑属性之间相关性且尺度无关（即无须去量纲）的距离度量**。
 
-![这里写图片描述](http://img.blog.csdn.net/20170515104253952?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![24.png](https://i.loli.net/2018/10/18/5bc851d3e17c0.png)
 
 **矩阵M也称为“度量矩阵”，为保证距离度量的非负性与对称性，M必须为(半)正定对称矩阵**，这样就为度量学习定义好了距离度量的形式，换句话说：**度量学习便是对度量矩阵进行学习**。现在来回想一下前面我们接触的机器学习不难发现：**机器学习算法几乎都是在优化目标函数，从而求解目标函数中的参数**。同样对于度量学习，也需要设置一个优化目标，书中简要介绍了错误率和相似性两种优化目标，此处限于篇幅不进行展开。
 
