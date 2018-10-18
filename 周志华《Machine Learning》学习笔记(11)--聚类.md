@@ -10,19 +10,19 @@
 
 谈及距离度量，最熟悉的莫过于欧式距离了，从年头一直用到年尾的距离计算公式：即对应属性之间相减的平方和再开根号。度量距离还有其它的很多经典方法，通常它们需要满足一些基本性质：
 
-![这里写图片描述](http://img.blog.csdn.net/20170429231752350?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![1.png](https://i.loli.net/2018/10/18/5bc84ed4c0390.png)
 
 最常用的距离度量方法是**“闵可夫斯基距离”（Minkowski distance)**：
 
-![这里写图片描述](http://img.blog.csdn.net/20170429231820351?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![2.png](https://i.loli.net/2018/10/18/5bc84ed49e31f.png)
 
 当p=1时，闵可夫斯基距离即**曼哈顿距离（Manhattan distance）**：
 
-![这里写图片描述](http://img.blog.csdn.net/20170429231915816?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![3.png](https://i.loli.net/2018/10/18/5bc84ed49c31f.png)
 
 当p=2时，闵可夫斯基距离即**欧氏距离（Euclidean distance）**：
 
-![这里写图片描述](http://img.blog.csdn.net/20170429231933212?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![4.png](https://i.loli.net/2018/10/18/5bc84ed497613.png)
 
 我们知道属性分为两种：**连续属性**和**离散属性**（有限个取值）。对于连续值的属性，一般都可以被学习器所用，有时会根据具体的情形作相应的预处理，例如：归一化等；而对于离散值的属性，需要作下面进一步的处理：
 
@@ -33,11 +33,11 @@
 
 **对于无序属性，我们一般采用VDM进行距离的计算**，例如：对于离散属性的两个取值a和b，定义：
 
-![这里写图片描述](http://img.blog.csdn.net/20170429232129387?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![5.png](https://i.loli.net/2018/10/18/5bc84ed4e9560.png)
 
 于是，在计算两个样本之间的距离时，我们可以将闵可夫斯基距离和VDM混合在一起进行计算：
 
-![这里写图片描述](http://img.blog.csdn.net/20170429232145606?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![6.png](https://i.loli.net/2018/10/18/5bc84ed507bc7.png)
 
 若我们定义的距离计算方法是用来度量相似性，例如下面将要讨论的聚类问题，即距离越小，相似性越大，反之距离越大，相似性越小。这时距离的度量方法并不一定需要满足前面所说的四个基本性质，这样的方法称为：**非度量距离（non-metric distance）**。
 
@@ -49,21 +49,21 @@
 
 即将聚类结果与某个参考模型的结果进行比较，**以参考模型的输出作为标准，来评价聚类好坏**。假设聚类给出的结果为λ，参考模型给出的结果是λ*，则我们将样本进行两两配对，定义：
 
-![这里写图片描述](http://img.blog.csdn.net/20170429232253279?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![7.png](https://i.loli.net/2018/10/18/5bc84ed59160e.png)
 
 显然a和b代表着聚类结果好坏的正能量，b和c则表示参考结果和聚类结果相矛盾，基于这四个值可以导出以下常用的外部评价指标：
 
-![这里写图片描述](http://img.blog.csdn.net/20170429232354780?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![8.png](https://i.loli.net/2018/10/18/5bc84ed587438.png)
 
 ###**10.2.2 内部指标**
 
 内部指标即不依赖任何外部模型，直接对聚类的结果进行评估，聚类的目的是想将那些相似的样本尽可能聚在一起，不相似的样本尽可能分开，直观来说：**簇内高内聚紧紧抱团，簇间低耦合老死不相往来**。定义：
 
-![这里写图片描述](http://img.blog.csdn.net/20170429232441677?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![9.png](https://i.loli.net/2018/10/18/5bc84ed581852.png)
 
 基于上面的四个距离，可以导出下面这些常用的内部评价指标：
 
-![这里写图片描述](http://img.blog.csdn.net/20170429232459302?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![10.png](https://i.loli.net/2018/10/18/5bc84ed582854.png)
 
 ##**10.3 原型聚类**
 
@@ -73,11 +73,11 @@
 
 K-Means的思想十分简单，**首先随机指定类中心，根据样本与类中心的远近划分类簇，接着重新计算类中心，迭代直至收敛**。但是其中迭代的过程并不是主观地想象得出，事实上，若将样本的类别看做为“隐变量”（latent variable），类中心看作样本的分布参数，这一过程正是通过**EM算法**的两步走策略而计算出，其根本的目的是为了最小化平方误差函数E：
 
-![这里写图片描述](http://img.blog.csdn.net/20170429232612459?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![11.png](https://i.loli.net/2018/10/18/5bc84fb82b5d3.png)
 
 K-Means的算法流程如下所示：
 
-![这里写图片描述](http://img.blog.csdn.net/20170429232628381?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![12.png](https://i.loli.net/2018/10/18/5bc84fb9c0817.png)
 
 ###**10.3.2 学习向量量化（LVQ）**
 
@@ -88,7 +88,7 @@ LVQ也是基于原型的聚类算法，与K-Means不同的是，**LVQ使用样�
 
 LVQ算法的流程如下所示：
 
-![这里写图片描述](http://img.blog.csdn.net/20170429232824491?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![13.png](https://i.loli.net/2018/10/18/5bc84fb9d59f2.png)
 
 ###**10.3.3 高斯混合聚类**
 
@@ -96,38 +96,39 @@ LVQ算法的流程如下所示：
 
 对于多维高斯分布，其概率密度函数如下所示：
 
-![这里写图片描述](http://img.blog.csdn.net/20170429232905710?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![14.png](https://i.loli.net/2018/10/18/5bc84fb870d98.png)
 
 其中u表示均值向量，∑表示协方差矩阵，可以看出一个多维高斯分布完全由这两个参数所确定。接着定义高斯混合分布为：
 
-![这里写图片描述](http://img.blog.csdn.net/20170429232931179?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![15.png](https://i.loli.net/2018/10/18/5bc84fb876794.png)
 
 α称为混合系数，这样空间中样本的采集过程则可以抽象为：**（1）先选择一个类簇（高斯分布），（2）再根据对应高斯分布的密度函数进行采样**，这时候贝叶斯公式又能大展身手了：
 
-![这里写图片描述](http://img.blog.csdn.net/20170429233007132?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![16.png](https://i.loli.net/2018/10/18/5bc84fb9191d9.png)
 
 此时只需要选择PM最大时的类簇并将该样本划分到其中，看到这里很容易发现：这和那个传说中的贝叶斯分类不是神似吗，都是通过贝叶斯公式展开，然后计算类先验概率和类条件概率。但遗憾的是：**这里没有真实类标信息，对于类条件概率，并不能像贝叶斯分类那样通过最大似然法美好地计算出来**，因为这里的样本可能属于所有的类簇，这里的似然函数变为：
 
-![这里写图片描述](http://img.blog.csdn.net/20170429233120854?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![17.png](https://i.loli.net/2018/10/18/5bc84fb871d4a.png)
 
 可以看出：简单的最大似然法根本无法求出所有的参数，这样PM也就没法计算。**这里就要召唤出之前的EM大法，首先对高斯分布的参数及混合系数进行随机初始化，计算出各个PM（即γji，第i个样本属于j类），再最大化似然函数（即LL（D）分别对α、u和∑求偏导 ），对参数进行迭代更新**。
 
-![这里写图片描述](http://img.blog.csdn.net/20170429233102992?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![18.png](https://i.loli.net/2018/10/18/5bc84fb8a6f32.png)
 
 高斯混合聚类的算法流程如下图所示：
 
-![这里写图片描述](http://img.blog.csdn.net/20170429233224746?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![19.png](https://i.loli.net/2018/10/18/5bc84fb9c4fa4.png)
 
 ##**10.4 密度聚类**
 
 密度聚类则是基于密度的聚类，它从样本分布的角度来考察样本之间的可连接性，并基于可连接性（密度可达）不断拓展疆域（类簇）。其中最著名的便是**DBSCAN**算法，首先定义以下概念：
 
-![这里写图片描述](http://img.blog.csdn.net/20170429233308200?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
-![这里写图片描述](http://img.blog.csdn.net/20170429233319825?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![20.png](https://i.loli.net/2018/10/18/5bc84fb9bd69c.png)
+
+![21.png](https://i.loli.net/2018/10/18/5bc8509f8d619.png)
 
 简单来理解DBSCAN便是：**找出一个核心对象所有密度可达的样本集合形成簇**。首先从数据集中任选一个核心对象A，找出所有A密度可达的样本集合，将这些样本形成一个密度相连的类簇，直到所有的核心对象都遍历完。DBSCAN算法的流程如下图所示：
 
-![这里写图片描述](http://img.blog.csdn.net/20170429233342603?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![22.png](https://i.loli.net/2018/10/18/5bc8509feb587.png)
 
 ##**10.5 层次聚类**
 
@@ -141,17 +142,17 @@ LVQ算法的流程如下所示：
 可以看出其中最关键的一步就是**计算两个类簇的相似度**，这里有多种度量方法：
 
 	* 单链接（single-linkage）:取类间最小距离。
-![这里写图片描述](http://img.blog.csdn.net/20170429233556652?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![23.png](https://i.loli.net/2018/10/18/5bc8509ebb022.png)
 
 	* 全链接（complete-linkage）:取类间最大距离
-![这里写图片描述](http://img.blog.csdn.net/20170429233609189?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![24.png](https://i.loli.net/2018/10/18/5bc8509eb2b30.png)
 
 	* 均链接（average-linkage）:取类间两两的平均距离
-![这里写图片描述](http://img.blog.csdn.net/20170429233621527?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![25.png](https://i.loli.net/2018/10/18/5bc8509f089a7.png)
 
 很容易看出：**单链接的包容性极强，稍微有点暧昧就当做是自己人了，全链接则是坚持到底，只要存在缺点就坚决不合并，均连接则是从全局出发顾全大局**。层次聚类法的算法流程如下所示：
 
-![这里写图片描述](http://img.blog.csdn.net/20170429233648137?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![26.png](https://i.loli.net/2018/10/18/5bc8509f9d4a0.png)
 
 > 在此聚类算法就介绍完毕，分类/聚类都是机器学习中最常见的任务，我实验室的大Boss也是靠着聚类起家，从此走上人生事业钱途...之巅峰，在书最后的阅读材料还看见Boss的名字，所以这章也是必读不可了...
 
