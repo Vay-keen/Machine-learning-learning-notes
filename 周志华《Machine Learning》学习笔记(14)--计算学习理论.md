@@ -8,7 +8,7 @@
 
 回归正题，**泛化误差指的是学习器在总体上的预测误差，经验误差则是学习器在某个特定数据集D上的预测误差**。在实际问题中，往往我们并不能得到总体且数据集D是通过独立同分布采样得到的，因此我们常常使用经验误差作为泛化误差的近似。
 
-![这里写图片描述](http://img.blog.csdn.net/20170616211622375?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![1.png](https://i.loli.net/2018/10/18/5bc854f38d4fe.png)
 
 ##**13.1 PAC学习**
 
@@ -20,12 +20,15 @@
 > 若一个算法的假设空间包含目标概念，则称该数据集对该算法是**可分**（separable）的，亦称**一致**（consistent）的；
 > 若一个算法的假设空间不包含目标概念，则称该数据集对该算法是**不可分**（non-separable）的，或称**不一致**（non-consistent）的。
 
-
 举个简单的例子：对于非线性分布的数据集，若使用一个线性分类器，则该线性分类器对应的假设空间就是空间中所有可能的超平面，显然假设空间不包含该数据集的目标概念，所以称数据集对该学习器是不可分的。给定一个数据集D，我们希望模型学得的假设h尽可能地与目标概念一致，这便是**概率近似正确** (Probably Approximately Correct，简称PAC)的来源，即以较大的概率学得模型满足误差的预设上限。
-![这里写图片描述](http://img.blog.csdn.net/20170616211852315?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
-![这里写图片描述](http://img.blog.csdn.net/20170616211900595?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
-![这里写图片描述](http://img.blog.csdn.net/20170616211909266?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
-![这里写图片描述](http://img.blog.csdn.net/20170616211916829?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+
+![2.png](https://i.loli.net/2018/10/18/5bc854f446f97.png)
+
+![3.png](https://i.loli.net/2018/10/18/5bc854f482d0b.png)
+
+![4.png](https://i.loli.net/2018/10/18/5bc854f47d006.png)
+
+![5.png](https://i.loli.net/2018/10/18/5bc854f46ad91.png)
 
 上述关于PAC的几个定义层层相扣：定义12.1表达的是对于某种学习算法，如果能以一个置信度学得假设满足泛化误差的预设上限，则称该算法能PAC辨识概念类，即该算法的输出假设已经十分地逼近目标概念。定义12.2则将样本数量考虑进来，当样本超过一定数量时，学习算法总是能PAC辨识概念类，则称概念类为PAC可学习的。定义12.3将学习器运行时间也考虑进来，若运行时间为多项式时间，则称PAC学习算法。
 
@@ -37,7 +40,7 @@
 
 可分或一致的情形指的是：**目标概念包含在算法的假设空间中**。对于目标概念，在训练集D中的经验误差一定为0，因此首先我们可以想到的是：不断地剔除那些出现预测错误的假设，直到找到经验误差为0的假设即为目标概念。但**由于样本集有限，可能会出现多个假设在D上的经验误差都为0，因此问题转化为：需要多大规模的数据集D才能让学习算法以置信度的概率从这些经验误差都为0的假设中找到目标概念的有效近似**。
 
-![这里写图片描述](http://img.blog.csdn.net/20170616212035674?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![6.png](https://i.loli.net/2018/10/18/5bc854f484f30.png)
 
 通过上式可以得知：**对于可分情形的有限假设空间，目标概念都是PAC可学习的，即当样本数量满足上述条件之后，在与训练集一致的假设中总是可以在1-σ概率下找到目标概念的有效近似。**
 
@@ -45,19 +48,19 @@
 
 不可分或不一致的情形指的是：**目标概念不存在于假设空间中**，这时我们就不能像可分情形时那样从假设空间中寻找目标概念的近似。但**当假设空间给定时，必然存一个假设的泛化误差最小，若能找出此假设的有效近似也不失为一个好的目标，这便是不可知学习(agnostic learning)的来源。**
 
-![这里写图片描述](http://img.blog.csdn.net/20170616212129194?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![7.png](https://i.loli.net/2018/10/18/5bc854f485f2e.png)
 
 这时候便要用到**Hoeffding不等式**：
 
-![这里写图片描述](http://img.blog.csdn.net/20170616212142054?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![8.png](https://i.loli.net/2018/10/18/5bc854f46970a.png)
 
 对于假设空间中的所有假设，出现泛化误差与经验误差之差大于e的概率和为：
 
-![这里写图片描述](http://img.blog.csdn.net/20170616212154960?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![9.png](https://i.loli.net/2018/10/18/5bc854f4114fd.png)
 
 因此，可令不等式的右边小于（等于）σ，便可以求出满足泛化误差与经验误差相差小于e所需的最少样本数，同时也可以求出泛化误差界。
 
-![这里写图片描述](http://img.blog.csdn.net/20170616212215222?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![10.png](https://i.loli.net/2018/10/18/5bc854f440a02.png)
 
 
 ##**13.3 VC维**
@@ -66,23 +69,26 @@
 
 
 > **增长函数**：对于给定数据集D，假设空间中的每个假设都能对数据集的样本赋予标记，因此一个假设对应着一种打标结果，不同假设对D的打标结果可能是相同的，也可能是不同的。随着样本数量m的增大，假设空间对样本集D的打标结果也会增多，增长函数则表示假设空间对m个样本的数据集D打标的最大可能结果数，因此**增长函数描述了假设空间的表示能力与复杂度。**
-> ![这里写图片描述](http://img.blog.csdn.net/20170616212324894?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+>
+> ![11.png](https://i.loli.net/2018/10/18/5bc855ba970cd.png)
 
 > **打散**：例如对二分类问题来说，m个样本最多有2^m个可能结果，每种可能结果称为一种**“对分”**，若假设空间能实现数据集D的所有对分，则称数据集能被该假设空间打散。
 
 **因此尽管假设空间是无限的，但它对特定数据集打标的不同结果数是有限的，假设空间的VC维正是它能打散的最大数据集大小**。通常这样来计算假设空间的VC维：若存在大小为d的数据集能被假设空间打散，但不存在任何大小为d+1的数据集能被假设空间打散，则其VC维为d。
 
-![这里写图片描述](http://img.blog.csdn.net/20170616212444229?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![12.png](https://i.loli.net/2018/10/18/5bc855bb20c1e.png)
 
 同时书中给出了假设空间VC维与增长函数的两个关系：
 
-![这里写图片描述](http://img.blog.csdn.net/20170616212456770?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![13.png](https://i.loli.net/2018/10/18/5bc855ba83eb8.png)
 
 直观来理解（1）式也十分容易： 首先假设空间的VC维是d，说明当m<=d时，增长函数与2^m相等，例如：当m=d时，右边的组合数求和刚好等于2^d；而当m=d+1时，右边等于2^(d+1)-1，十分符合VC维的定义，同时也可以使用数学归纳法证明；（2）式则是由（1）式直接推导得出。
 
 在有限假设空间中，根据Hoeffding不等式便可以推导得出学习算法的泛化误差界；但在无限假设空间中，由于假设空间的大小无法计算，只能通过增长函数来描述其复杂度，因此无限假设空间中的泛化误差界需要引入增长函数。
-![这里写图片描述](http://img.blog.csdn.net/20170616212513302?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
-![这里写图片描述](http://img.blog.csdn.net/20170616212525505?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+
+![14.png](https://i.loli.net/2018/10/18/5bc855babc890.png)
+
+![15.png](https://i.loli.net/2018/10/18/5bc855ba5b2c3.png)
 
 上式给出了基于VC维的泛化误差界，同时也可以计算出满足条件需要的样本数（样本复杂度）。若学习算法满足**经验风险最小化原则（ERM）**，即学习算法的输出假设h在数据集D上的经验误差最小，可证明：**任何VC维有限的假设空间都是（不可知）PAC可学习的，换而言之：若假设空间的最小泛化误差为0即目标概念包含在假设空间中，则是PAC可学习，若最小泛化误差不为0，则称为不可知PAC可学习。**
 
@@ -90,15 +96,15 @@
 
 稳定性考察的是当算法的输入发生变化时，输出是否会随之发生较大的变化，输入的数据集D有以下两种变化：
 
-![这里写图片描述](http://img.blog.csdn.net/20170616212607974?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![16.png](https://i.loli.net/2018/10/18/5bc855badc5a8.png)
 
 若对数据集中的任何样本z，满足：
 
-![这里写图片描述](http://img.blog.csdn.net/20170616212622615?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![17.png](https://i.loli.net/2018/10/18/5bc855ba59b06.png)
 
 即原学习器和剔除一个样本后生成的学习器对z的损失之差保持β稳定，称学习器关于损失函数满足**β-均匀稳定性**。同时若损失函数有上界，即原学习器对任何样本的损失函数不超过M，则有如下定理：
 
-![这里写图片描述](http://img.blog.csdn.net/20170616212638122?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvdTAxMTgyNjQwNA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![18.png](https://i.loli.net/2018/10/18/5bc855babe7c3.png)
 
 事实上，**若学习算法符合经验风险最小化原则（ERM）且满足β-均匀稳定性，则假设空间是可学习的**。稳定性通过损失函数与假设空间的可学习联系在了一起，区别在于：假设空间关注的是经验误差与泛化误差，需要考虑到所有可能的假设；而稳定性只关注当前的输出假设。
 
