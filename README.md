@@ -6,4 +6,5 @@
 
 > 作者目前在腾讯微信事业群从事大数据、机器学习、推荐系统工作，团队会定期输出：机器学习在实际业务领域的技术总结，欢迎大家关注学习，共同进步！
 
-![](https://ftp.bmp.ovh/imgs/2021/07/022f98f41a401e3a.jpeg)
+<img src="https://ftp.bmp.ovh/imgs/2021/07/022f98f41a401e3a.jpeg" style="zoom:30%;" />
+
